@@ -1,0 +1,20 @@
+joe:
+  name      : Joe
+  id        : 1
+  created_at: 1999-02-19 08:00
+  updated_at: 1999-02-19 08:00
+  # has 3 books: two old (year 1990) and one new (year 2012) book
+
+bobby:
+  name      : Bobby
+  id        : 2
+  created_at: 1999-02-19 08:00
+  updated_at: 1999-02-19 08:00
+  # has 1 old book (year 1990)
+
+teddy:
+  name      : Teddy
+  id        : 3
+  created_at: 1999-02-19 08:00
+  updated_at: 1999-02-19 08:00
+  # has no books at all

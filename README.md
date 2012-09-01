@@ -1,10 +1,10 @@
 # Dase
 
-Johann Dase was a mental calculator - he could count and multiply numbers very quickly.
+German mathematician Johann Dase was a mental calculator - he could count and multiply numbers very quickly.
 
 http://en.wikipedia.org/wiki/Zacharias_Dase
 
-"Dase" gem adds similar ability to Active Records whenever you need to calculate the number of
+Dase gem adds extra speed to Active Record whenever you need to calculate the number of
 associated records, like this:
 
 ```
@@ -50,6 +50,10 @@ Basic usage:
 ```
 
 Advanced usage:
+
+TBD
+
+## How it works
 
 TBD
 
