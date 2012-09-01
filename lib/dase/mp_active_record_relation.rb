@@ -4,16 +4,19 @@ module Dase
 
     def includes_count_of(*args)
       args.reject! { |a| a.blank? }
+      options = args.extract_options!
+      options.assert_valid_keys(:conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
       return self if args.empty?
       relation = clone
-      relation.dase_values = ((relation.dase_values || []) + args).flatten.uniq
+      relation.dase_values ||= {}
+      args.each { |a| relation.dase_values[a] = options}
       relation
     end
 
     def attach_dase_counters_to_records
       if dase_values.present? and !@has_dase_counters
-        dase_values.each do |associations|
-          Dase::Preloader.new(@records, associations).run
+        dase_values.each do |associations, options|
+          Dase::Preloader.new(@records, associations, options).run
         end
         @has_dase_counters = true
       end

@@ -13,7 +13,7 @@ module Dase
     end
 
     # an overloaded version of ActiveRecord::Associations::Preloader's preloader_for
-    # which instantiates a custom preloader for a given association
+    # which returns a class of a custom preloader for a given association
     def preloader_for(reflection)
       case reflection.macro
         when :has_many
