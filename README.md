@@ -41,7 +41,9 @@ Or install it yourself as:
 
     $ gem install dase
 
-Note: the Dase gem's version number correlates with the Active Record's versions number,
+### Note on version numbers
+
+Dase version number correlates with the Active Record's versions number,
 which it has been tested with.
 E.g. the latest 3.2.* version of Dase will play nicely with the latest 3.2.* version of Active Record.
 Since it's a sort of a "hack", make sure you specified the version number for "dase" gem in your Gemfile.
