@@ -48,7 +48,7 @@ Since it's a sort of a "hack", make sure you specified the version number for "d
 
 ## Usage
 
-Basic usage:
+### Basic usage:
 
 ```
   Author.includes_count_of(:books).find_each do |author|
@@ -56,13 +56,23 @@ Basic usage:
   end
 ```
 
-Advanced usage:
+### Advanced usage:
 
-TBD
+You can specify a hash of options which will be passed to the underlying finder 
+which retrieves the association. Valid keys are: :conditions, :group, :having, :joins, :include
+```
+Author.includes_count_of(:books, :conditions => {:year => 1990})
+```
 
 ## How it works
 
-TBD
+The equivalent code would look something like this:
+```
+  counters_hash = Book.count(:group => :author_id)
+  Author.find_each do |author|
+    puts "#{author.name} has #{counters_hash[author.id] || 0} books published"
+  end
+```
 
 ## Contributing
 
