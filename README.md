@@ -1,11 +1,10 @@
 # Dase
 
-German mathematician Johann Dase was a mental calculator - he could count and multiply numbers very quickly.
+The gem is named by the german mathematician [Johann Dase](http://en.wikipedia.org/wiki/Zacharias_Dase),
+who was a mental calculator - he could count and multiply numbers very quickly. Dase gem adds extra speed 
+to Active Record whenever you need to calculate the number of associated records.
 
-http://en.wikipedia.org/wiki/Zacharias_Dase
-
-Dase gem adds extra speed to Active Record whenever you need to calculate the number of
-associated records, like this:
+Here's an example of the code that will cause N + 1 queries:
 
 ```
   Author.find_each do |author|
@@ -14,10 +13,18 @@ associated records, like this:
   end
 ```
 
-That's a solution for one of the cases of N + 1 querying problem
-described in Rails Guides here:
+Active Record has a built-in solution for efficient fetching of
+associated records - see [Rails Guides](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
+```
+  authors = Author.includes(:books)  # => will cause only 2 queries
+  authors.first                      
+```
 
-http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations
+The Dase gem provides a similar solution for the efficient counting of associated records:
+```
+  authors = Author.includes_count_of(:books)  # => will cause only 2 queries
+  authors.first.books_count                   
+```
 
 
 ## Installation
