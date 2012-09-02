@@ -12,7 +12,7 @@ module Dase
     end
 
     def respond_to?(*args)
-      @dase_counters && @dase_counters.has_key?(args.first) || super
+      @dase_counters && @dase_counters.has_key?(args.first.to_sym) || super
     end
 
     def method_missing(name, *args)
