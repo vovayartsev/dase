@@ -66,6 +66,19 @@ which retrieves the association. Valid keys are: :conditions, :group, :having, :
 Author.includes_count_of(:books, :conditions => {:year => 1990})
 ```
 
+### Known problems
+
+1. Dase doesn't support :through option on associations
+2. You can't put includes_count_of calls into a scope declaration, like this:
+
+```
+class Author
+   scope :with_counters, lambda {
+      includes_count_of(:books)    # this will not work!!!
+   }
+end
+```
+
 ## How it works
 
 The equivalent code would look something like this:
