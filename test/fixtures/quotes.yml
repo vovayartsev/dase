@@ -1,0 +1,16 @@
+# Joe's quotation
+first:
+  id: 1
+  book_id: 1
+  snippet: "To be or not to be, that is the question"
+
+# Bobby's quotations
+second:
+  id: 2
+  book_id: 4
+  snippet: "No matter how much cats fight, there always seem to be plenty of kittens"
+
+third:
+  id: 3
+  book_id: 4
+  snippet: "I am fond of pigs. Dogs look up to us. Cats look down on us. Pigs treat us as equals."

@@ -14,4 +14,9 @@ ActiveRecord::Schema.define do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "quotes", :force => true do |t|
+    t.string "snippet"
+    t.integer "book_id"
+  end
+
 end
