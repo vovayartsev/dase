@@ -11,6 +11,10 @@ module Dase
       @dase_counters[name]
     end
 
+    def respond_to?(*args)
+      @dase_counters && @dase_counters.has_key?(args.first) || super
+    end
+
     def method_missing(name, *args)
       if @dase_counters and @dase_counters.has_key?(name.to_sym)
         get_dase_counter(name, *args)
