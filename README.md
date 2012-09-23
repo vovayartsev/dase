@@ -48,16 +48,7 @@ Author.includes_count_of(:articles, :conditions => {:year => 2012})
 
 ### Known problems
 
-1. Dase doesn't support :through option on associations
-2. You can't put includes_count_of calls into a scope declaration, like this:
-
-```
-class Author
-   scope :with_counters, lambda {
-      includes_count_of(:articles)    # this will not work!!!
-   }
-end
-```
+Dase doesn't support :through option on associations
 
 ## How it works
 
