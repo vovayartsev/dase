@@ -24,6 +24,10 @@ class TestBase < Test::Unit::TestCase
       assert_equal true, Author.includes_count_of(:books).first.respond_to?(:books_count), "doesn't respond'"
     end
 
+    should "support :as option" do
+      assert_equal true, Author.includes_count_of(:books, :as => :my_count).first.respond_to?(:my_count), "doesn't respond'"
+    end
+
     should "count old books" do
       traditional_counts = Author.order(:name).map { |a| a.old_books.count }
       dase_counts = Author.includes_count_of(:old_books).order(:name).map { |a| a.old_books_count }
