@@ -28,6 +28,15 @@ class TestBase < Test::Unit::TestCase
       assert_equal true, Author.includes_count_of(:books, :as => :my_count).first.respond_to?(:my_count), "doesn't respond'"
     end
 
+    should "support old_books_count and new_books_count simultaneously using :as option" do
+      scope = Author.includes_count_of(:books, :conditions => {:year => 2012}, :as => :new_books_count).
+                    includes_count_of(:books, :conditions => {:year => 1990}, :as => :old_books_count)
+      dase_counts = scope.order(:name).map{ |a| [a.old_books_count, a.new_books_count] }
+      # the order is Bobby[:old, :new],  Joe[:old, :new],  Teddy[:old, :new]
+      true_counts = [[1, 0], [2, 1], [0, 0]] # see books.yml
+      assert_equal true_counts, dase_counts, "results mismatch"
+    end
+
     should "count old books" do
       traditional_counts = Author.order(:name).map { |a| a.old_books.count }
       dase_counts = Author.includes_count_of(:old_books).order(:name).map { |a| a.old_books_count }
