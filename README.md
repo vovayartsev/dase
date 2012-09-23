@@ -20,14 +20,6 @@ Add this line to your application's Gemfile:
 
     gem 'dase', "~> 3.2.0"
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install dase
-
 ### Note on version numbers
 
 Dase version number correlates with the Active Record's versions number,
@@ -53,16 +45,6 @@ which retrieves the association. Valid keys are: :conditions, :group, :having, :
 Author.includes_count_of(:articles, :conditions => {:year => 2012})
 ```
 
-## How it works
-
-Here's a pseudo-code that gives an idea on how it works internally
-```
-  counters_hash = Article.where(:year => 2012).count(:group => :author_id)
-  Author.find_each do |author|
-    puts "#{author.name} has #{counters_hash[author.id] || 0} articles published"
-  end
-```
-
 
 ### Known problems
 
@@ -76,6 +58,18 @@ class Author
    }
 end
 ```
+
+## How it works
+
+Here's a pseudo-code that gives an idea on how it works internally
+```
+  counters_hash = Article.where(:year => 2012).count(:group => :author_id)
+  Author.find_each do |author|
+    puts "#{author.name} has #{counters_hash[author.id] || 0} articles published"
+  end
+```
+
+
 
 
 ## Name origin
