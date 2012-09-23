@@ -24,6 +24,10 @@ class TestBase < Test::Unit::TestCase
       assert_equal true, Author.includes_count_of(:books).first.respond_to?(:books_count), "doesn't respond'"
     end
 
+    should "sneeze through scope definitions" do
+      assert_equal true, Author.with_count_of_books.first.respond_to?(:books_count), "doesn't respond'"
+    end
+
     should "support :as option" do
       assert_equal true, Author.includes_count_of(:books, :as => :my_count).first.respond_to?(:my_count), "doesn't respond'"
     end

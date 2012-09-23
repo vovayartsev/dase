@@ -6,4 +6,6 @@ class Author < ActiveRecord::Base
 
   has_many :quotes, :through => :books
 
+  scope :with_count_of_books, lambda { includes_count_of(:books) }
+
 end

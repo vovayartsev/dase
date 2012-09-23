@@ -32,6 +32,15 @@ module Dase
         @has_dase_counters = true
       end
     end
+
+    def merge(r)
+      super(r).tap do |result|
+        if r.dase_values.present?
+          result.dase_values ||= {}
+          result.dase_values.merge!(r.dase_values)
+        end
+      end
+    end
   end
 end
 
