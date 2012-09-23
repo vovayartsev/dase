@@ -1,29 +1,16 @@
 # Dase
 
-The gem is named by the german mathematician [Johann Dase](http://en.wikipedia.org/wiki/Zacharias_Dase),
-who was a mental calculator - he could count and multiply numbers very quickly. Dase gem adds extra speed 
-to Active Record whenever you need to calculate the number of associated records.
+## Overview
 
-Here's an example of the code that will cause N + 1 queries:
+Dase gem provides 'includes_count_of' method on a relation, which works similar to ActiveRecord's 'includes' method.
 
-```
-  Author.find_each do |author|
-    cnt = author.books.where(year: 1992).count
-    puts "#{author.name} has published #{cnt} books in 1992"
-  end
-```
+![Dase example](https://vovayartsev-home.s3.amazonaws.com/dase-mockup.png)
 
-Active Record has a built-in solution for efficient fetching of
-associated records - see [Rails Guides](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
+Calling 'includes_count_of(:articles)' on a relation object adds 'articles_count' method to each of the authors:
 ```
-  authors = Author.includes(:books)  # => will cause only 2 queries
-  authors.first                      
-```
-
-The Dase gem provides a similar solution for the efficient counting of associated records:
-```
-  authors = Author.includes_count_of(:books)  # => will cause only 2 queries
-  authors.first.books_count                   
+  authors = Author.includes(:publisher).includes_count_of(:articles, :conditions => {:year => 2012})  
+  authors.first.name             # => 'Billy'                
+  authors.first.articles_count   # => 2                
 ```
 
 
@@ -53,8 +40,8 @@ Since it's a sort of a "hack", make sure you specified the version number for "d
 ### Basic usage:
 
 ```
-  Author.includes_count_of(:books).find_each do |author|
-    puts "#{author.name} has #{author.books_count} books published"
+  Author.includes_count_of(:articles).find_each do |author|
+    puts "#{author.name} has #{author.articles_count} articles published"
   end
 ```
 
@@ -63,8 +50,19 @@ Since it's a sort of a "hack", make sure you specified the version number for "d
 You can specify a hash of options which will be passed to the underlying finder 
 which retrieves the association. Valid keys are: :conditions, :group, :having, :joins, :include
 ```
-Author.includes_count_of(:books, :conditions => {:year => 1990})
+Author.includes_count_of(:articles, :conditions => {:year => 2012})
 ```
+
+## How it works
+
+Here's a pseudo-code that gives an idea on how it works internally
+```
+  counters_hash = Article.where(:year => 2012).count(:group => :author_id)
+  Author.find_each do |author|
+    puts "#{author.name} has #{counters_hash[author.id] || 0} articles published"
+  end
+```
+
 
 ### Known problems
 
@@ -74,20 +72,16 @@ Author.includes_count_of(:books, :conditions => {:year => 1990})
 ```
 class Author
    scope :with_counters, lambda {
-      includes_count_of(:books)    # this will not work!!!
+      includes_count_of(:articles)    # this will not work!!!
    }
 end
 ```
 
-## How it works
 
-The equivalent code would look something like this:
-```
-  counters_hash = Book.count(:group => :author_id)
-  Author.find_each do |author|
-    puts "#{author.name} has #{counters_hash[author.id] || 0} books published"
-  end
-```
+## Name origin
+
+The gem is named by the german mathematician [Johann Dase](http://en.wikipedia.org/wiki/Zacharias_Dase),
+who was a mental calculator - he could count and multiply numbers very quickly. 
 
 ## Contributing
 
