@@ -8,9 +8,11 @@ Gem::Specification.new do |gem|
   gem.version       = Dase::VERSION
   gem.authors       = ["Vladimir Yartsev"]
   gem.email         = ["vovayartsev@gmail.com"]
-  gem.description   = %q{A solution for N+1 querying problem in Active Record associated records counting}
-  gem.summary       = %q{Really fast associated records counting}
-  gem.homepage      = "https://github.com/vovayartsev"
+  gem.description   = %q{Dase gem creates includes_count_of method in ActiveRecord::Relation
+                         to count associated records efficiently. See examples at https://github.com/vovayartsev/dase
+                      }
+  gem.summary       = %q{Provides includes_count_of method on ActiveRecord::Relation to count associated records efficiently}
+  gem.homepage      = "https://github.com/vovayartsev/dase"
 
   gem.add_runtime_dependency "activerecord", "~> 3.2.0"
   gem.add_runtime_dependency "activesupport", "~> 3.2.0"
