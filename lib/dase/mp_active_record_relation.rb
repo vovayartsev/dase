@@ -5,7 +5,7 @@ module Dase
     def includes_count_of(*args)
       args.reject! { |a| a.blank? }
       options = args.extract_options!
-      options.assert_valid_keys(:as, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
+      options.assert_valid_keys(:as, :only, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
       return self if args.empty?
       if options.present? and args.many?
         raise ArgumentError, "includes_count_of takes either multiple associations OR single association + options"
