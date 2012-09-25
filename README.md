@@ -37,12 +37,29 @@ Since it's a sort of a "hack", make sure you specified the version number for "d
   end
 ```
 
-### Advanced usage:
-
-You can specify a hash of options which will be passed to the underlying finder 
+### Using :conditions hash
+Specify a hash of options which will be passed to the underlying finder 
 which retrieves the association. Valid keys are: :conditions, :group, :having, :joins, :include
 ```
-Author.includes_count_of(:articles, :conditions => {:year => 2012})
+Author.includes_count_of(:articles, :conditions => {:year => 2012})   # counts only articles in year 2012
+```
+
+### Using scope merging
+```
+scope = Article.where(:year => 2012)
+Author.includes_count_of(:articles, :only => scope)   # counts only articles in year 2012
+```
+
+### Using block syntax
+```
+Author.includes_count_of(:articles){ where(:year => 2012) }        # in the block, 'self' is a Relation instance
+Author.includes_count_of(:articles){ |scope| scope.where(:year => 2012) }   # 'self' is the same inside and outside the block
+```
+
+### Renaming counter column
+```
+sites = WebSite.includes_count_of(:users, :conditions => {:role => 'admin'}, :as => :admins_count)   
+sites.each { |site| puts "Site #{site.url} has #{site.admins_count} admin users" }
 ```
 
 
