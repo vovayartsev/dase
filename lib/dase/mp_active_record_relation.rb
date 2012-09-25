@@ -2,16 +2,17 @@ module Dase
   module ARRelationInstanceMethods
     attr_accessor :dase_values
 
-    def includes_count_of(*args)
+    def includes_count_of(*args, &block)
       args.reject! { |a| a.blank? }
       options = args.extract_options!
-      options.assert_valid_keys(:as, :only, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
+      options.assert_valid_keys(:proc, :as, :only, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
       return self if args.empty?
       if options.present? and args.many?
         raise ArgumentError, "includes_count_of takes either multiple associations OR single association + options"
       end
       relation = clone
       relation.dase_values ||= {}
+      options[:proc] = block if block
       args.each do |arg|
         if options[:as].present?
           options[:association] = arg

@@ -6,6 +6,7 @@ module Dase
       preload_options = preload_options.clone
       @dase_counter_name = preload_options.delete(:as)
       @dase_scope_to_merge = preload_options.delete(:only)
+      @dase_proc = preload_options.delete(:proc)
       super(klass, owners, reflection, preload_options)
     end
 
@@ -16,7 +17,17 @@ module Dase
       fk = "#{scoped.quoted_table_name}.#{reflection.foreign_key}"
       scope = records_for(ids)
       scope = scope.merge(@dase_scope_to_merge) if @dase_scope_to_merge
-      counters_hash = scope.count(group: fk)
+      if @dase_proc  # support for includes_count_of(...){ where(...) } syntax
+        case @dase_proc.arity
+          when 0
+            scope = scope.instance_eval &@dase_proc
+          when 1
+            scope = @dase_proc.call(scope)
+          else
+            raise ArgumentError, "The block passed to includes_count_of takes 0 or 1 arguments"
+        end
+      end
+      counters_hash = scope.count(:group => fk)
       owners.each do |owner|
         value = counters_hash[owner[pk]] || 0 # 0 is "default count", when no records found
         owner.set_dase_counter(counter_name, value)

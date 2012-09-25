@@ -64,6 +64,22 @@ class TestBase < Test::Unit::TestCase
       assert_equal true_counts, dase_counts, "results mismatch"
     end
 
+    should "count using block conditions (arity: 0)" do
+      dase_counts = Author.includes_count_of(:books){where(:year => 2012)}.order(:name).map { |a| a.books_count }
+      # the order is: Bobby, Joe, Teddy - due to order(:name)
+      true_counts = [0, 1, 0] # see books.yml
+      assert_equal true_counts, dase_counts, "results mismatch"
+    end
+
+    should "count using block conditions (arity: 1)" do
+      @y = 2012
+      dase_counts = Author.includes_count_of(:books){ |books| books.where(:year => @y)}.order(:name).map { |a| a.books_count }
+      # the order is: Bobby, Joe, Teddy - due to order(:name)
+      true_counts = [0, 1, 0] # see books.yml
+      assert_equal true_counts, dase_counts, "results mismatch"
+    end
+
+
     # Not yet implemented
     #should "count quotations" do
     #  traditional_counts = Author.order(:name).map { |a| a.quotes.count }
