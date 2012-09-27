@@ -1,5 +1,3 @@
-require 'debugger'
-
 module Dase
   module PreloaderMethods
 
