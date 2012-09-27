@@ -79,14 +79,20 @@ class TestBase < Test::Unit::TestCase
       assert_equal true_counts, dase_counts, "results mismatch"
     end
 
+    should "count likes" do
+      dase_counts = Author.order(:name).includes_count_of(:scores).map { |a| a.scores_count }
+      # the order is: Bobby, Joe, Teddy - due to order(:name)
+      true_counts = [0, 2, 0] # see likes.yml
+      assert_equal true_counts, dase_counts, "results mismatch"
+    end
 
-    # Not yet implemented
-    #should "count quotations" do
-    #  traditional_counts = Author.order(:name).map { |a| a.quotes.count }
-    #  dase_counts = Author.order(:name).includes_count_of(:quotes).map { |a| a.quotes_count }
-    #  # the order is: Bobby, Joe, Teddy - due to order(:name)
-    #  true_counts = [2, 1, 0] # see quotes.yml
-    #  compare_counts(traditional_counts, dase_counts, true_counts)
-    #end
+    should "count quotations" do
+      traditional_counts = Author.order(:name).map { |a| a.quotes.count }
+      dase_counts = Author.order(:name).includes_count_of(:quotes).map { |a| a.quotes_count }
+      # the order is: Bobby, Joe, Teddy - due to order(:name)
+      true_counts = [2, 1, 0] # see quotes.yml
+      compare_counts(traditional_counts, dase_counts, true_counts)
+    end
+
   end
 end

@@ -5,6 +5,7 @@ class Author < ActiveRecord::Base
   has_many :old_books, :class_name => "Book", :conditions => {:year => 1990}
 
   has_many :quotes, :through => :books
+  has_many :scores, :through => :quotes
 
   scope :with_count_of_books, lambda { includes_count_of(:books) }
 

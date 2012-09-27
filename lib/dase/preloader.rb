@@ -10,9 +10,18 @@ module Dase
     end
 
     # Not implemented yet
-    #class HasManyThrough < ::ActiveRecord::Associations::Preloader::HasManyThrough
-    #  include Dase::PreloaderMethods
-    #end
+    class HasManyThrough < ::ActiveRecord::Associations::Preloader::HasManyThrough
+      include Dase::PreloaderMethods
+
+      def prefixed_foreign_key
+        "#{reflection.active_record.table_name}.#{reflection.active_record_primary_key}"
+      end
+
+      def records_for(ids)
+        reflection.active_record.joins(reflection.name).
+            where(prefixed_foreign_key => ids)
+      end
+    end
 
     # an overloaded version of ActiveRecord::Associations::Preloader's preloader_for
     # which returns a class of a custom preloader for a given association
@@ -20,7 +29,8 @@ module Dase
       case reflection.macro
         when :has_many
           if reflection.options[:through]
-            raise NotImplementedError, "The support for HasManyThrough associations is not implemented yet"
+            HasManyThrough
+            #raise NotImplementedError, "The support for HasManyThrough associations is not implemented yet"
           else
             HasMany
           end

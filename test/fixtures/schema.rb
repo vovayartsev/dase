@@ -19,4 +19,10 @@ ActiveRecord::Schema.define do
     t.integer "book_id"
   end
 
+  create_table "likes", :force => true do |t|
+    t.integer "score"
+    t.integer "quote_id"
+  end
+
+
 end

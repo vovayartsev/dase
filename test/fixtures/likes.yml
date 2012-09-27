@@ -1,0 +1,10 @@
+good:
+  id: 1
+  quote_id: 1
+  score: 5
+
+bad:
+  id: 2
+  quote_id: 1
+  score: 2
+
