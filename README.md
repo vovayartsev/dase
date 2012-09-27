@@ -65,7 +65,7 @@ sites.each { |site| puts "Site #{site.url} has #{site.admins_count} admin users"
 
 ### Known problems
 
-Dase doesn't support :through option on associations
+Dase doesn't support polymorphism.
 
 ## How it works
 
