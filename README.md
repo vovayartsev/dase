@@ -16,16 +16,9 @@ Calling 'includes_count_of(:articles)' on a relation object adds 'articles_count
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your Rails 3.2.x application's Gemfile:
 
     gem 'dase', "~> 3.2.0"
-
-### Note on version numbers
-
-Dase version number correlates with the Active Record's versions number,
-which it has been tested with.
-E.g. the latest 3.2.* version of Dase will play nicely with the latest 3.2.* version of Active Record.
-Since it's a sort of a "hack", make sure you specified the version number for "dase" gem in your Gemfile.
 
 ## Usage
 
@@ -68,6 +61,17 @@ sites = WebSite.includes_count_of(:users, :conditions => {:role => 'admin'}, :as
 sites.each { |site| puts "Site #{site.url} has #{site.admins_count} admin users" }
 ```
 
+## Compatibility
+
+### Rails versions
+
+This gem is for Rails 3.2.x . Earlier versions are not supported.
+
+Note: the Dase gem version number correlates with the Active Record's versions number,
+which it has been tested with.
+E.g. the latest 3.2.* version of Dase will play nicely with the latest 3.2.* version of Active Record.
+Since dase gem is a sort of a "hack", make sure you specified the version number for "dase" gem in your Gemfile.
+
 ### Polymorphic associations and HasManyThrough associations
 
 Polymorphic associations and HasManyThrough associations support should work, but it is not tested quite well.
@@ -86,9 +90,6 @@ Here's a pseudo-code that gives an idea on how it works internally
     puts "#{author.name} has #{counters_hash[author.id] || 0} articles published"
   end
 ```
-
-
-
 
 ## Name origin
 
