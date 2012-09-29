@@ -73,6 +73,10 @@ sites.each { |site| puts "Site #{site.url} has #{site.admins_count} admin users"
 Polymorphic associations and HasManyThrough associations support should work, but it is not tested quite well.
 Bug reports and pull requests are very welcome.
 
+### jRuby support
+
+Not yet
+
 ## How it works
 
 Here's a pseudo-code that gives an idea on how it works internally
