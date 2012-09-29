@@ -1,4 +1,4 @@
-# Dase
+[![Build Status](https://secure.travis-ci.org/vovayartsev/dase.png)](http://travis-ci.org/vovayartsev/dase)
 
 ## Overview
 
