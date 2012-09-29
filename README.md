@@ -32,6 +32,10 @@ Since it's a sort of a "hack", make sure you specified the version number for "d
 ### Basic usage:
 
 ```
+  class Author
+    has_many :articles
+  end
+  
   Author.includes_count_of(:articles).find_each do |author|
     puts "#{author.name} has #{author.articles_count} articles published"
   end
@@ -46,15 +50,17 @@ Author.includes_count_of(:articles, :conditions => {:year => 2012})   # counts o
 
 ### Using scope merging
 ```
-scope = Article.where(:year => 2012)
-Author.includes_count_of(:articles, :only => scope)   # counts only articles in year 2012
-```
+class Article
+  belongs_to :author
+  scope this_year, lambda { where(:year => 2012) }
+end 
 
-### Using block syntax
+results = Author.includes_count_of(:articles, :only => Article.this_year)   
+results.first.articles_count  # => # number of articles of given Author for year 2012 only
 ```
-Author.includes_count_of(:articles){ where(:year => 2012) }        # in the block, 'self' is a Relation instance
-Author.includes_count_of(:articles){ |scope| scope.where(:year => 2012) }   # 'self' is the same inside and outside the block
-```
+This is achieved by merging the association scope with the scope provided in :only options. 
+No additional checks are performed, and providing association of the proper type is solely your responsibility.
+
 
 ### Renaming counter column
 ```
@@ -62,10 +68,10 @@ sites = WebSite.includes_count_of(:users, :conditions => {:role => 'admin'}, :as
 sites.each { |site| puts "Site #{site.url} has #{site.admins_count} admin users" }
 ```
 
+### Polymorphic associations and HasManyThrough associations
 
-### Known problems
-
-Dase doesn't support polymorphism.
+Polymorphic associations and HasManyThrough associations support should work, but it is not tested quite well.
+Bug reports and pull requests are very welcome.
 
 ## How it works
 
