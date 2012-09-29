@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'shoulda'
   
   if defined? JRUBY_VERSION
-    gem.add_development_dependency 'activerecord-jdbcsqlite3-adapter', "~> 3.2.0"
+    gem.add_development_dependency 'activerecord-jdbcsqlite3-adapter'
   else
     gem.add_runtime_dependency "activerecord", "~> 3.2.0"
     gem.add_development_dependency 'sqlite3', '~> 1.3.3'
