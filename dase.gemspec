@@ -14,10 +14,16 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Provides includes_count_of method on ActiveRecord::Relation to count associated records efficiently}
   gem.homepage      = "https://github.com/vovayartsev/dase"
 
-  gem.add_runtime_dependency "activerecord", "~> 3.2.0"
   gem.add_runtime_dependency "activesupport", "~> 3.2.0"
   gem.add_development_dependency 'shoulda'
-  gem.add_development_dependency 'sqlite3', '~> 1.3.3'
+  
+  if defined? JRUBY_VERSION
+    gem.add_development_dependency 'activerecord-jdbcsqlite3-adapter', "~> 3.2.0"
+  else
+    gem.add_runtime_dependency "activerecord", "~> 3.2.0"
+    gem.add_development_dependency 'sqlite3', '~> 1.3.3'
+  end
+
   # gem.add_development_dependency 'debugger'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec-core'
