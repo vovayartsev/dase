@@ -2,7 +2,7 @@ module Dase
   module ARRelationInstanceMethods
     attr_accessor :dase_values
 
-    def includes_count_of(*args, &block)
+    def includes_count_of(*args)
       args.reject! { |a| a.blank? }
       options = args.extract_options!
       options.assert_valid_keys(:proc, :as, :only, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
@@ -12,23 +12,19 @@ module Dase
       end
       relation = clone
       relation.dase_values ||= {}
-      options[:proc] = block if block
+      #options[:proc] = block if block
       args.each do |arg|
-        if options[:as].present?
-          options[:association] = arg
-          relation.dase_values[options[:as].to_sym] = options
-        else
-          relation.dase_values[arg] = options
-        end
+        options[:association] = arg.to_sym
+        options[:as] = (options[:as] || "#{arg}_count").to_sym
+        relation.dase_values[options[:as]] = options
       end
       relation
     end
 
     def attach_dase_counters_to_records
       if dase_values.present? and !@has_dase_counters
-        dase_values.each do |association, options|
-          association = options.delete(:association) if options[:association]
-          Dase::Preloader.new(@records, association, options).run
+        dase_values.each do |name, options|
+          Dase::Preloader.new(@records, options[:association], options).run
         end
         @has_dase_counters = true
       end

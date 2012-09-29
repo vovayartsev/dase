@@ -4,7 +4,7 @@ module Dase
   module ARBaseInstanceMethods
     def set_dase_counter(name, value)
       @dase_counters ||= {}
-      @dase_counters[name] = value
+      @dase_counters[name.to_sym] = value
     end
 
     def get_dase_counter(name)
@@ -20,6 +20,15 @@ module Dase
         get_dase_counter(name, *args)
       else
         super
+      end
+    end
+
+    # This method uses traditions counting method
+    # and stores the results in dase-compatible form
+    def refresh_dase_counters!(*associations)
+      associations.flatten.each do |assoc|
+        value = self.send(assoc).count   # i.e. book.quotes.count
+        set_dase_counter "#{column}_count", value   # i.e. book.quotes_count = value
       end
     end
 
