@@ -18,7 +18,7 @@ Calling 'includes_count_of(:articles)' on a relation object adds 'articles_count
 
 Add this line to your Rails 3.2.x application's Gemfile:
 
-    gem 'dase', "~> 3.2.0"
+    gem 'dase', "~> 3.2.4"
 
 ## Usage
 
