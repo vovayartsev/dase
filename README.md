@@ -51,8 +51,8 @@ end
 results = Author.includes_count_of(:articles, :only => Article.this_year)   
 results.first.articles_count  # => # number of articles of given Author for year 2012 only
 ```
-This is achieved by merging the association scope with the scope provided in :only options. 
-No additional checks are performed, and providing association of the proper type is solely your responsibility.
+This is achieved by merging the association scope with the scope provided as ":only => ..." option. 
+No additional checks are performed, and providing the association of proper type is solely your responsibility.
 
 
 ### Renaming counter column
