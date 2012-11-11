@@ -50,7 +50,7 @@ class TestBase < Test::Unit::TestCase
     end
 
     should "count books for year 1990" do
-      traditional_counts = Author.order(:name).map { |a| a.books.where(year: 1990).count }
+      traditional_counts = Author.order(:name).map { |a| a.books.where(:year => 1990).count }
       dase_counts = Author.includes_count_of(:books, :conditions => {:year => 1990}).order(:name).map { |a| a.books_count }
       # the order is: Bobby, Joe, Teddy - due to order(:name)
       true_counts = [1, 2, 0] # see books.yml
@@ -92,6 +92,12 @@ class TestBase < Test::Unit::TestCase
       # the order is: Bobby, Joe, Teddy - due to order(:name)
       true_counts = [2, 1, 0] # see quotes.yml
       compare_counts(traditional_counts, dase_counts, true_counts)
+    end
+
+    should 'support multiple arguments' do
+      joe = Author.includes_count_of(:books, :old_books).where(:name => 'Joe').first
+      assert_equal 3, joe.books_count, "Invalid books_count"
+      assert_equal 2, joe.old_books_count, "Invalid old_books_count"
     end
 
   end

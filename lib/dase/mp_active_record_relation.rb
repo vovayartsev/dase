@@ -14,9 +14,10 @@ module Dase
       relation.dase_values ||= {}
       #options[:proc] = block if block
       args.each do |arg|
-        options[:association] = arg.to_sym
-        options[:as] = (options[:as] || "#{arg}_count").to_sym
-        relation.dase_values[options[:as]] = options
+        opts = options.clone
+        opts[:association] = arg.to_sym
+        opts[:as] = (opts[:as] || "#{arg}_count").to_sym
+        relation.dase_values[opts[:as]] = opts
       end
       relation
     end
