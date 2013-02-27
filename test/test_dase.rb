@@ -64,6 +64,10 @@ class TestBase < Test::Unit::TestCase
       assert_equal true_counts, dase_counts, "results mismatch"
     end
 
+    should "allow merge (nil) on a scope with includes_count_of" do
+      assert_equal 3, Author.includes_count_of(:books).merge(nil).all.size
+    end
+
     #should "count using block conditions (arity: 0)" do
     #  dase_counts = Author.includes_count_of(:books){where(:year => 2012)}.order(:name).map { |a| a.books_count }
     #  # the order is: Bobby, Joe, Teddy - due to order(:name)
