@@ -33,7 +33,8 @@ module Dase
 
     def merge(r)
       super(r).tap do |result|
-        if r.dase_values.present?
+        # it's ok to get nil here - ActiveRecord works fine in that case
+        if !r.nil? and r.dase_values.present?
           result.dase_values ||= {}
           result.dase_values.merge!(r.dase_values)
         end
