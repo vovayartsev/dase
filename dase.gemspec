@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency 'sqlite3', '~> 1.3.3'
   end
 
-  # gem.add_development_dependency 'debugger'
+  # gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec-core'
 

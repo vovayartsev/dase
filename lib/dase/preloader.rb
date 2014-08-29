@@ -2,14 +2,16 @@ module Dase
   class Preloader < ::ActiveRecord::Associations::Preloader
 
     # custom preloaders for different association types
+
     class HasMany < ::ActiveRecord::Associations::Preloader::HasMany
       include Dase::PreloaderMethods
     end
+
     class HasAndBelongsToMany < ::ActiveRecord::Associations::Preloader::HasAndBelongsToMany
       include Dase::PreloaderMethods
     end
 
-    # Not implemented yet
+    # Not fully implemented yet
     class HasManyThrough < ::ActiveRecord::Associations::Preloader::HasManyThrough
       include Dase::PreloaderMethods
 

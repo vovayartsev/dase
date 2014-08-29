@@ -68,20 +68,7 @@ class TestBase < Test::Unit::TestCase
       assert_equal 3, Author.includes_count_of(:books).merge(nil).all.size
     end
 
-    #should "count using block conditions (arity: 0)" do
-    #  dase_counts = Author.includes_count_of(:books){where(:year => 2012)}.order(:name).map { |a| a.books_count }
-    #  # the order is: Bobby, Joe, Teddy - due to order(:name)
-    #  true_counts = [0, 1, 0] # see books.yml
-    #  assert_equal true_counts, dase_counts, "results mismatch"
-    #end
-    #
-    #should "count using block conditions (arity: 1)" do
-    #  @y = 2012
-    #  dase_counts = Author.includes_count_of(:books){ |books| books.where(:year => @y)}.order(:name).map { |a| a.books_count }
-    #  # the order is: Bobby, Joe, Teddy - due to order(:name)
-    #  true_counts = [0, 1, 0] # see books.yml
-    #  assert_equal true_counts, dase_counts, "results mismatch"
-    #end
+    # pending "apply: lambda {where...}"
 
     should "count likes" do
       dase_counts = Author.order(:name).includes_count_of(:scores).map { |a| a.scores_count }
@@ -103,6 +90,15 @@ class TestBase < Test::Unit::TestCase
       assert_equal 3, joe.books_count, "Invalid books_count"
       assert_equal 2, joe.old_books_count, "Invalid old_books_count"
     end
+  end
 
+  context 'test' do
+    should 'work with find_each' do
+      # the order is: Bobby, Joe, Teddy - due to sort_by(:name)
+      records = []
+      Author.includes_count_of(:books).find_each(batch_size: 2) { |r| records << r }
+      dase_count = records.sort_by(&:name).map { |a| a.books_count }
+      assert_equal [1, 3, 0], dase_count, "dase countings failed" # see books.yml
+    end
   end
 end

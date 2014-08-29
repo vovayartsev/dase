@@ -12,7 +12,6 @@ module Dase
       end
       relation = clone
       relation.dase_values ||= {}
-      #options[:proc] = block if block
       args.each do |arg|
         opts = options.clone
         opts[:association] = arg.to_sym
@@ -23,11 +22,8 @@ module Dase
     end
 
     def attach_dase_counters_to_records
-      if dase_values.present? and !@has_dase_counters
-        dase_values.each do |name, options|
-          Dase::Preloader.new(@records, options[:association], options).run
-        end
-        @has_dase_counters = true
+      (dase_values || {}).each do |_, options|
+        Dase::Preloader.new(@records, options[:association], options).run
       end
     end
 
@@ -43,7 +39,6 @@ module Dase
   end
 end
 
-
 ActiveRecord::Relation.class_eval do
   include Dase::ARRelationInstanceMethods
 
@@ -52,8 +47,7 @@ ActiveRecord::Relation.class_eval do
   alias_method :exec_queries_before_dase, :exec_queries
 
   def exec_queries
-    exec_queries_before_dase # original method from ActiveRecord
-    attach_dase_counters_to_records
-    @records
+    after_hook = loaded? ? proc {} : proc { attach_dase_counters_to_records }
+    exec_queries_before_dase.tap(&after_hook)
   end
 end
