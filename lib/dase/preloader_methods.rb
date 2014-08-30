@@ -2,8 +2,7 @@ module Dase
   module PreloaderMethods
 
     def initialize(klass, owners, reflection, preload_options)
-      preload_options = preload_options.clone
-      @dase_association = preload_options.delete(:association)
+      preload_options = preload_options.reject { |k, _| k == :association }
       @dase_counter_name = preload_options.delete(:as)
       @dase_scope_to_merge = preload_options.delete(:only)
       super(klass, owners, reflection, preload_options)
