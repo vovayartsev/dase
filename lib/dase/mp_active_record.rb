@@ -44,6 +44,7 @@ ActiveRecord::Relation.class_eval do
 
   private
 
+  # why overwriting with include/extend doesn't work???
   alias_method :exec_queries_before_dase, :exec_queries
 
   def exec_queries
@@ -51,3 +52,8 @@ ActiveRecord::Relation.class_eval do
     exec_queries_before_dase.tap(&after_hook)
   end
 end
+
+class << ActiveRecord::Base
+  delegate :includes_count_of, :to => :scoped
+end
+

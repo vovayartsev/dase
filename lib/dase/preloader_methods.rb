@@ -17,10 +17,11 @@ module Dase
       ids = owners.map(&pk)
       scope = records_for(ids)
       scope = scope.merge(@dase_scope_to_merge) if @dase_scope_to_merge
-      counters_hash = scope.count(:group => prefixed_foreign_key)
+      counters_hash = scope.count(group: prefixed_foreign_key)
       owners.each do |owner|
-        value = counters_hash[owner[pk]] || 0 # 0 is "default count", when no records found
-        owner.set_dase_counter(@dase_counter_name, value)
+        owner.define_singleton_method(@dase_counter_name) do
+          counters_hash[owner[pk]] || 0
+        end
       end
     end
 
