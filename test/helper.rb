@@ -3,6 +3,8 @@
 require "rubygems"
 require "bundler"
 Bundler.setup
+
+require 'minitest/autorun'
 require 'test/unit'
 require 'shoulda'
 require 'active_record'
@@ -19,12 +21,11 @@ ActiveRecord::Base.establish_connection(
 dep = defined?(ActiveSupport::Dependencies) ? ActiveSupport::Dependencies : ::Dependencies
 dep.autoload_paths.unshift FIXTURES_PATH
 
-ActiveRecord::Base.silence do
+# TODO
+# ActiveRecord::Base.silence do
   ActiveRecord::Migration.verbose = false
   load File.join(FIXTURES_PATH, 'schema.rb')
-end
+# end
 
 ActiveRecord::Fixtures.create_fixtures(FIXTURES_PATH, ActiveRecord::Base.connection.tables)
 
-class Test::Unit::TestCase
-end

@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestBase < Test::Unit::TestCase
+class TestBase < Minitest::Test
 
   def compare_counts(traditional, dase, true_counts)
     assert_equal true_counts, traditional, "traditional counting failed - fixtures not loaded"
@@ -13,6 +13,7 @@ class TestBase < Test::Unit::TestCase
     end
 
     should "count books" do
+      Author.preload
       traditional_counts = Author.order(:name).map { |a| a.books.count }
       dase_counts = Author.includes_count_of(:books).order(:name).map { |a| a.books_count }
       # the order is: Bobby, Joe, Teddy - due to order(:name)
