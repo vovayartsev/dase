@@ -21,6 +21,12 @@ module Dase
       end
     end
 
+    attr_reader :dase_counter_name
+
+    def initialize(dase_counter_name)
+      @dase_counter_name = dase_counter_name
+    end
+
     # an overloaded version of ActiveRecord::Associations::Preloader's preloader_for
     # which returns a class of a custom preloader for a given association
     def preloader_for(reflection, owners, rhs_klass)
@@ -29,7 +35,6 @@ module Dase
       if owners.first.association(reflection.name).loaded?
         return AlreadyLoaded
       end
-      reflection.check_preloadable!
 
       case reflection.macro
         when :has_many

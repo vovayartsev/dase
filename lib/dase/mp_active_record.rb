@@ -6,7 +6,7 @@ module Dase
 
     def includes_count_of(*args)
       options = args.extract_options!
-      sanitize_includes_count_of_options(args, options)
+      sanitize_dase_options(args, options)
       return self if args.empty?
       clone.tap do |relation|
         args.each do |arg|
@@ -24,7 +24,7 @@ module Dase
 
     private
 
-    def sanitize_includes_count_of_options(args, options)
+    def sanitize_dase_options(args, options)
       options.assert_valid_keys(:proc, :as, :only, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
       if options.present? and args.many?
         raise ArgumentError, 'includes_count_of takes either multiple associations OR single association + options'
@@ -32,8 +32,8 @@ module Dase
     end
 
     def attach_dase_counters_to_records
-      (dase_values || {}).each do |_, options|
-        Dase::Preloader.new(@records, options[:association], options).run
+      (dase_values || {}).each do |dase_counter_name, options|
+        Dase::Preloader.new(dase_counter_name).preload(@records, options[:association])
       end
     end
   end
@@ -54,6 +54,6 @@ ActiveRecord::Relation.class_eval do
 end
 
 class << ActiveRecord::Base
-  delegate :includes_count_of, :to => :scoped
+  delegate :includes_count_of, :to => :all
 end
 
