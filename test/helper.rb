@@ -21,6 +21,7 @@ dep.autoload_paths.unshift FIXTURES_PATH
 ActiveRecord::Migration.verbose = false
 load File.join(FIXTURES_PATH, 'schema.rb')
 
-ActiveRecord::Fixtures.create_fixtures(FIXTURES_PATH, ActiveRecord::Base.connection.tables)
+ActiveRecord::FixtureSet.create_fixtures(FIXTURES_PATH, ActiveRecord::Base.connection.tables)
 
+# require 'pry' rescue nil # use it when enabled in gemspec
 require 'minitest/autorun'

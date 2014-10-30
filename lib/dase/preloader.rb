@@ -11,20 +11,20 @@ module Dase
     class HasManyThrough < ::ActiveRecord::Associations::Preloader::HasManyThrough
       include Dase::PreloaderMethods
 
-      def prefixed_foreign_key
+      def foreign_key
         "#{reflection.active_record.table_name}.#{reflection.active_record_primary_key}"
       end
 
       def records_for(ids)
         reflection.active_record.joins(reflection.name).
-            where(prefixed_foreign_key => ids)
+            where(foreign_key => ids)
       end
     end
 
-    attr_reader :dase_counter_name
+    attr_reader :options
 
-    def initialize(dase_counter_name)
-      @dase_counter_name = dase_counter_name
+    def initialize(options)
+      @options = options
     end
 
     # an overloaded version of ActiveRecord::Associations::Preloader's preloader_for

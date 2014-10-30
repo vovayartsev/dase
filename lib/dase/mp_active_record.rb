@@ -1,5 +1,5 @@
 module Dase
-  module ARRelationInstanceMethods
+  module RelationInstanceMethods
     def dase_values
       @dase_values ||= {}
     end
@@ -7,6 +7,7 @@ module Dase
     def includes_count_of(*args)
       options = args.extract_options!
       sanitize_dase_options(args, options)
+      apply_synonyms(options)
       return self if args.empty?
       clone.tap do |relation|
         args.each do |arg|
@@ -24,23 +25,33 @@ module Dase
 
     private
 
+    # legacy syntax support
+    def apply_synonyms(options)
+      VALID_SYNONYMS.each do |old, new|
+        if options.has_key?(old)
+          raise "Don't use #{old} and #{new} together" if options.has_key?(new)
+          options[new] = options.delete(old)
+        end
+      end
+    end
+
     def sanitize_dase_options(args, options)
-      options.assert_valid_keys(:proc, :as, :only, :conditions, :group, :having, :limit, :offset, :joins, :include, :from, :lock)
+      options.assert_valid_keys *(VALID_DASE_OPTIONS + VALID_ASSOCIATION_OPTIONS + VALID_SYNONYMS.keys)
       if options.present? and args.many?
         raise ArgumentError, 'includes_count_of takes either multiple associations OR single association + options'
       end
     end
 
     def attach_dase_counters_to_records
-      (dase_values || {}).each do |dase_counter_name, options|
-        Dase::Preloader.new(dase_counter_name).preload(@records, options[:association])
+      (dase_values || {}).each do |_, options|
+        Dase::Preloader.new(options).preload(@records, options[:association])
       end
     end
   end
 end
 
 ActiveRecord::Relation.class_eval do
-  include Dase::ARRelationInstanceMethods
+  include Dase::RelationInstanceMethods
 
   private
 

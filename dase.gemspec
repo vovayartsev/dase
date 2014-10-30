@@ -24,9 +24,9 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency 'sqlite3', '~> 1.3'
   end
 
-  gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec-core'
+  # gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rake', '~> 10.3'
+  gem.add_development_dependency 'rspec-core', '~> 3.1'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
