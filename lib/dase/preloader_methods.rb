@@ -25,7 +25,7 @@ module Dase
       proc = options.delete(:proc)
 
       # applying proc syntax: -> {...}
-      scope = scope.instance_eval(&proc) if proc
+      scope = scope.instance_exec(&proc) if proc
 
       options.slice(*VALID_ASSOCIATION_OPTIONS).each do |key, value|
         scope = scope.send(key, value)

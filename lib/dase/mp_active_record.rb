@@ -6,6 +6,7 @@ module Dase
 
     def includes_count_of(*args)
       options = args.extract_options!
+      extract_proc_argument(args, options)
       sanitize_dase_options(args, options)
       apply_synonyms(options)
       return self if args.empty?
@@ -14,6 +15,13 @@ module Dase
           counter_name = (options[:as] || "#{arg}_count").to_sym
           relation.dase_values[counter_name] = options.merge(as: counter_name, association: arg.to_sym)
         end
+      end
+    end
+
+    def extract_proc_argument(args, options)
+      if args.last.is_a?(Proc)
+        raise "Can't use :proc option together with ->{} syntax" if options.has_key?(:proc)
+        options[:proc] = args.pop
       end
     end
 

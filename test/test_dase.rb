@@ -63,6 +63,14 @@ describe 'includes_count_of' do
     compare_counts(traditional_counts, dase_counts, true_counts)
   end
 
+  it 'should support lambda syntax (where year 1990)' do
+    traditional_counts = Author.order(:name).map { |a| a.books.where(:year => 1990).count }
+    dase_counts = Author.includes_count_of(:books, lambda { where(:year => 1990) }).order(:name).map { |a| a.books_count }
+    # the order is: Bobby, Joe, Teddy - due to order(:name)
+    true_counts = [1, 2, 0] # see books.yml
+    compare_counts(traditional_counts, dase_counts, true_counts)
+  end
+
   it 'should count books for year 2012 using :only option' do
     dase_counts = Author.includes_count_of(:books, :only => Book.year2012).order(:name).map { |a| a.books_count }
     # the order is: Bobby, Joe, Teddy - due to order(:name)
