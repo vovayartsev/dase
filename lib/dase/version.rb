@@ -1,3 +1,3 @@
 module Dase
-  VERSION = '3.2.9'
+  VERSION = '4.1.1'
 end
