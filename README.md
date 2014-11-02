@@ -2,14 +2,14 @@
 
 ## Overview
 
-Dase gem provides `includes_count_of` method on a relation, which works similar to ActiveRecord's `preload` method and solves [N+1 query problem](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations) when counting records in `has_many` associations.
+Dase gem provides `includes_count_of` method on a relation, which works similar to ActiveRecord's `preload` method and solves [N+1 query problem](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations) when counting records in `has_many` ActiveRecord associations.
 
 ## Usage
 
 Given this data in the DB:
 ![Dase example](https://dl.dropboxusercontent.com/u/8560625/dase.png)
 
-and this models definition
+and this Rails model definition
 ```ruby
 class Author
   has_many :articles
@@ -61,7 +61,7 @@ then we add counters to the parent records like this:
 ## Name origin
 
 The gem is named by the german mathematician [Johann Dase](http://en.wikipedia.org/wiki/Zacharias_Dase),
-who was a mental calculator - he could count and multiply numbers very quickly. 
+who was a [mental calculator](http://en.wikipedia.org/wiki/Mental_calculator) and could add and multiply numbers very quickly. 
 
 ## Contributing
 
