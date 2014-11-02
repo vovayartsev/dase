@@ -22,15 +22,19 @@ you can now write this:
   billy.articles_count     # => 2                
 ```
 
-with conditions on associated records
+with conditions on associated records (only articles in year 2012)
 ```
-  Author.includes_count_of(:articles, where: {year: 2012} )        #  only the articles published in 2012
-  Author.includes_count_of(:articles, -> { where(year: 2012) } )   #  [Rails 4.1 and greater] the same using lambda syntax
+  Author.includes_count_of(:articles, where: {year: 2012} ) 
+```
+
+using lambda syntax (in v4.1 and greater)
+```
+  Author.includes_count_of(:articles, -> { where(year: 2012) } )
 ```
 
 with renamed counter method
 ```
-  Author.includes_count_of(:articles, where: {year: 2012}, as: :number_of_articles_in_2012)
+  Author.includes_count_of(:articles, -> { where(year: 2012) }, as: :number_of_articles_in_2012)
 ```
 
 with multiple associations counted at once
