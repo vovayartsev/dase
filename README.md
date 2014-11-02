@@ -25,7 +25,7 @@ you can now write this:
 with conditions on associated records
 ```
   Author.includes_count_of(:articles, where: {year: 2012} )        #  only the articles published in 2012
-  Author.includes_count_of(:articles, -> { where(year: 2012) } )   #  the same using lambda syntax
+  Author.includes_count_of(:articles, -> { where(year: 2012) } )   #  [Rails 4.1 and greater] the same using lambda syntax
 ```
 
 with renamed counter method
