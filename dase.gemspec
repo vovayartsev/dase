@@ -9,9 +9,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Vladimir Yartsev"]
   gem.licenses      = ["MIT"]
   gem.email         = ["vovayartsev@gmail.com"]
-  gem.description   = %q{Dase gem creates includes_count_of method in ActiveRecord::Relation
-                         to count associated records efficiently. See examples at https://github.com/vovayartsev/dase
-                      }
+  gem.description   = %q{includes_count_of method on ActiveRecord::Relation to solve N+1 query problem when counting associated records }
   gem.summary       = %q{Provides includes_count_of method on ActiveRecord::Relation to count associated records efficiently}
   gem.homepage      = "https://github.com/vovayartsev/dase"
 
