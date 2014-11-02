@@ -45,7 +45,7 @@ with multiple associations counted at once
 | 3.2.x         | gem 'dase', '~> 3.2.0' |
 | 4.0.x         |    ----- N/A -----     |
 | 4.1.x         | gem 'dase', '~> 4.1.0' |
-| 4.2.x         | coming soon            |
+| 4.2.0.beta2         | gem 'dase', :github => 'vovayartsev/dase', :branch => 'rails-4-2'           |
 
 ## Under the hood
 
