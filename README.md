@@ -43,7 +43,7 @@ with multiple associations counted at once
 | Rails version | Add this to Gemfile    |
 |---------------|------------------------|
 | 3.2.x         | gem 'dase', '~> 3.2.0' |
-| 4.0.x         | gem 'dase', '~> 4.0.0' |
+| 4.0.x         |    ----- N/A -----     |
 | 4.1.x         | gem 'dase', '~> 4.1.0' |
 | 4.2.x         | coming soon            |
 

@@ -27,7 +27,7 @@ module Dase
 
     def merge(other)
       super(other).tap do |result|
-        result.dase_values.merge!(other.dase_values || {}) if other # other == nil is fine too
+        result.dase_values.merge!(other.dase_values) if other # other == nil is fine too
       end
     end
 
