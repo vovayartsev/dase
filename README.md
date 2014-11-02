@@ -62,6 +62,11 @@ then we add counters to the parent records like this:
   define_method(:articles_count) { counters_hash[author.id] || 0 }
 ```
 
+## Alternative approaches
+Dase calculates counters dynamically every time you make an SQL query. It makes an extra SQL query for each association processed. These alternatives may be more efficient:
+* Cache column in the DB - see [counter_culture](https://github.com/magnusvk/counter_culture) gem, or [counter_cache](http://guides.rubyonrails.org/association_basics.html#counter_cache) in Rails Guides.
+* Using subquery in SELECT clause, or JOIN+SELECT+GROUP approach, as explained in [that video](http://www.youtube.com/watch?v=rJg3I-leoo4)
+
 ## Name origin
 
 The gem is named by the german mathematician [Johann Dase](http://en.wikipedia.org/wiki/Zacharias_Dase),
@@ -76,5 +81,10 @@ who was a [mental calculator](http://en.wikipedia.org/wiki/Mental_calculator) an
 5. Create new Pull Request
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vovayartsev/dase/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vovayartsev/dase/trend.png)](https://bitdeli.com/free "Bitdeli Badge") 
+
+
+
+
 
