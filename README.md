@@ -2,93 +2,60 @@
 
 ## Overview
 
-Dase gem provides 'includes_count_of' method on a relation, which works similar to ActiveRecord's 'includes' method.
-
-![Dase example](https://vovayartsev-home.s3.amazonaws.com/dase-mockup.png)
-
-Calling 'includes_count_of(:articles)' on a relation object adds 'articles_count' method to each of the authors:
-```
-  authors = Author.includes(:publisher).includes_count_of(:articles, :conditions => {:year => 2012})  
-  authors.first.name             # => 'Billy'                
-  authors.first.articles_count   # => 2                
-```
-
-
-## Installation
-
-Add this line to your Rails 3.2.x application's Gemfile:
-
-    gem 'dase', "~> 3.2.4"
+Dase gem provides `includes_count_of` method on a relation, which works similar to ActiveRecord's `preload` method and solves [N+1 query problem](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations) when counting records in `has_many` associations.
 
 ## Usage
 
-### Basic usage:
+Given this data in the DB:
+![Dase example](https://dl.dropboxusercontent.com/u/8560625/dase.png)
 
+and this models definition
+```ruby
+class Author
+  has_many :articles
+end
 ```
-  class Author
-    has_many :articles
-  end
-  
-  Author.includes_count_of(:articles).find_each do |author|
-    puts "#{author.name} has #{author.articles_count} articles published"
-  end
+you can now write this:
 ```
-
-### Using :conditions hash
-Specify a hash of options which will be passed to the underlying finder 
-which retrieves the association. Valid keys are: :conditions, :group, :having, :joins, :include
-```
-Author.includes_count_of(:articles, :conditions => {:year => 2012})   # counts only articles in year 2012
+  authors = Author.includes_count_of(:articles)
+  billy = authors.first    # => #<Author name: 'Billy'>                
+  billy.articles_count     # => 2                
 ```
 
-### Using scope merging
+with conditions on associated records
 ```
-class Article
-  belongs_to :author
-  scope this_year, lambda { where(:year => 2012) }
-end 
-
-results = Author.includes_count_of(:articles, :only => Article.this_year)   
-results.first.articles_count  # => # number of articles of given Author for year 2012 only
-```
-This is achieved by merging the association scope with the scope provided as ":only => ..." option. 
-No additional checks are performed, and providing the association of proper type is solely your responsibility.
-
-
-### Renaming counter column
-```
-sites = WebSite.includes_count_of(:users, :conditions => {:role => 'admin'}, :as => :admins_count)   
-sites.each { |site| puts "Site #{site.url} has #{site.admins_count} admin users" }
+  Author.includes_count_of(:articles, where: {year: 2012} )        #  only the articles published in 2012
+  Author.includes_count_of(:articles, -> { where(year: 2012) } )   #  the same using lambda syntax
 ```
 
-## Compatibility
+with renamed counter method
+```
+  Author.includes_count_of(:articles, where: {year: 2012}, as: :number_of_articles_in_2012)
+```
 
-### Rails versions
+with multiple associations counted at once
+```
+  Author.includes_count_of(:articles, :photos, :tweets)
+```
 
-This gem is for Rails 3.2.x . Earlier versions are not supported.
+## Installation
 
-Note: the Dase gem version number correlates with the Active Record's versions number,
-which it has been tested with.
-E.g. the latest 3.2.* version of Dase will play nicely with the latest 3.2.* version of Active Record.
-Since dase gem is a sort of a "hack", make sure you specified the version number for "dase" gem in your Gemfile.
+| Rails version | Add this to Gemfile    |
+|---------------|------------------------|
+| 3.2.x         | gem 'dase', '~> 3.2.0' |
+| 4.0.x         | gem 'dase', '~> 4.0.0' |
+| 4.1.x         | gem 'dase', '~> 4.1.0' |
+| 4.2.x         | coming soon            |
 
-### Polymorphic associations and HasManyThrough associations
+## Under the hood
 
-Polymorphic associations and HasManyThrough associations support should work, but it is not tested quite well.
-Bug reports and pull requests are very welcome.
-
-### jRuby support
-
-Not yet
-
-## How it works
-
-Here's a pseudo-code that gives an idea on how it works internally
+When a relation is "materialized", we run a custom preloader which calculates the hash of counters in a single SQL query like this:
 ```
   counters_hash = Article.where(:year => 2012).count(:group => :author_id)
-  Author.find_each do |author|
-    puts "#{author.name} has #{counters_hash[author.id] || 0} articles published"
-  end
+```
+then we add counters to the parent records like this:
+```
+  define_method(:articles_count) { counters_hash[author.id] || 0 }
 ```
 
 ## Name origin
