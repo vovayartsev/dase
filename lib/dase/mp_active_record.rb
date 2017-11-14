@@ -25,8 +25,8 @@ module Dase
       end
     end
 
-    def merge(other)
-      super(other).tap do |result|
+    def merge(other, *args)
+      super.tap do |result|
         result.dase_values.merge!(other.dase_values) if other # other == nil is fine too
       end
     end
@@ -44,7 +44,8 @@ module Dase
     end
 
     def sanitize_dase_options(args, options)
-      options.assert_valid_keys *(VALID_DASE_OPTIONS + VALID_ASSOCIATION_OPTIONS + VALID_SYNONYMS.keys)
+      valid_options = VALID_DASE_OPTIONS + VALID_ASSOCIATION_OPTIONS + VALID_SYNONYMS.keys
+      options.assert_valid_keys(*valid_options)
       if options.present? and args.many?
         raise ArgumentError, 'includes_count_of takes either multiple associations OR single association + options'
       end
@@ -75,4 +76,3 @@ end
 class << ActiveRecord::Base
   delegate :includes_count_of, :to => :all
 end
-
