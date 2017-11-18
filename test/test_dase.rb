@@ -78,9 +78,9 @@ describe 'includes_count_of' do
     assert_equal true_counts, dase_counts, "results mismatch"
   end
 
-  it 'should allow merge (nil) on a scope with includes_count_of' do
-    assert_equal 3, Author.includes_count_of(:books).merge(nil).all.size
-  end
+  # it 'should allow merge (nil) on a scope with includes_count_of' do
+  #   assert_equal 3, Author.includes_count_of(:books).merge(nil).all.size
+  # end
 
   # pending "apply: lambda {where...}"
 
@@ -113,4 +113,3 @@ describe 'includes_count_of' do
     assert_equal [1, 3, 0], dase_count, "dase countings failed" # see books.yml
   end
 end
-
