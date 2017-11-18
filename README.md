@@ -24,7 +24,7 @@ you can now write this:
 
 with conditions on associated records (only articles in year 2012)
 ```
-  Author.includes_count_of(:articles, where: {year: 2012} ) 
+  Author.includes_count_of(:articles, where: {year: 2012} )
 ```
 
 using lambda syntax (in v4.1 and greater)
@@ -49,7 +49,8 @@ with multiple associations counted at once
 | 3.2.x         | gem 'dase', '~> 3.2.0' |
 | 4.0.x         |    ----- N/A -----     |
 | 4.1.x         | gem 'dase', '~> 4.1.0' |
-| 4.2.0.beta2         | gem 'dase', :github => 'vovayartsev/dase', :branch => 'rails-4-2'           |
+| 4.2.x         | gem 'dase', '~> 4.2.0' |
+| 5.1.x         | gem 'dase', '~> 5.1.0' |
 
 ## Under the hood
 
@@ -70,7 +71,7 @@ Dase calculates counters dynamically every time you make an SQL query. It makes 
 ## Name origin
 
 The gem is named by the german mathematician [Johann Dase](http://en.wikipedia.org/wiki/Zacharias_Dase),
-who was a [mental calculator](http://en.wikipedia.org/wiki/Mental_calculator) and could add and multiply numbers very quickly. 
+who was a [mental calculator](http://en.wikipedia.org/wiki/Mental_calculator) and could add and multiply numbers very quickly.
 
 ## Contributing
 
@@ -82,9 +83,4 @@ who was a [mental calculator](http://en.wikipedia.org/wiki/Mental_calculator) an
 
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vovayartsev/dase/trend.png)](https://bitdeli.com/free "Bitdeli Badge") 
-
-
-
-
-
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vovayartsev/dase/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
