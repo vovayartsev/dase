@@ -7,7 +7,7 @@ Dase gem provides `includes_count_of` method on a relation, which works similar 
 ## Usage
 
 Given this data in the DB:
-![Dase example](https://dl.dropboxusercontent.com/u/8560625/dase.png)
+![Dase example](https://www.dropbox.com/s/0quvrssjbzqubh1/dase.png?raw=1)
 
 and this Rails model definition
 ```ruby
